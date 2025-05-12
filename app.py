@@ -65,18 +65,26 @@ def recommend(movie):
 
 
 # Google Drive file ID (from the shareable link)
-file_id = "similarity.pkl"
-url = f"https://drive.google.com/file/d/12AAt0lBVkSM9kVIW2a-pp6wg4BZsYh17/view?usp=sharing/uc?id={file_id}"
+file_id = "12AAt0lBVkSM9kVIW2a-pp6wg4BZsYh17"
+url = f"https://drive.google.com/uc?id={file_id}"
 # Local path to save the file
 output_path = "similarity.pkl"
 
-# Download the file if it doesn't exist
 if not os.path.exists(output_path):
-    gdown.download(url, output_path, quiet=False)
+    try:
+        gdown.download(url, output_path, quiet=False)
+        st.success("Downloaded similarity matrix successfully!")
+    except Exception as e:
+        st.error(f"Critical error downloading file: {str(e)}")
+        st.stop()
 
-# Load the file
-with open(output_path, "rb") as f:
-    similarity = pickle.load(f)
+# Validate pickle file
+try:
+    with open(output_path, "rb") as f:
+        similarity = pickle.load(f)
+except pickle.UnpicklingError as e:
+    st.error(f"Corrupted file! Delete {output_path} and retry. Error: {str(e)}")
+    st.stop()
 
 st.header('Movie Recommender System')
 movies = pd.read_csv('movies.csv')
