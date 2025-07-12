@@ -65,7 +65,7 @@ def recommend(movie):
 
 
 # Google Drive file ID (from the shareable link)
-file_id = "1ROYgdde2GnoS_8v6wQkFE1ByyUzO3OMX"
+file_id = "1Dvg5fOg0VzqBVAvp9ZVtoa_324MHCNwO"
 url = f"https://drive.google.com/uc?id={file_id}"
 # Local path to save the file
 output_path = "similarity.pkl"
